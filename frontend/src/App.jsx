@@ -7,12 +7,14 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [statusText, setStatusText] = useState('');
   const [error, setError] = useState(null);
+  const [currentVideoUrl, setCurrentVideoUrl] = useState(null);
 
   const handleSummarize = async (url) => {
     setIsLoading(true);
     setError(null);
     setSummary(null);
     setStatusText('Starting...');
+    setCurrentVideoUrl(url);
 
     try {
       const response = await fetch('http://localhost:8000/api/summarize', {
@@ -88,7 +90,7 @@ function App() {
         </div>
       )}
 
-      <SummaryResult summary={summary} />
+      <SummaryResult summary={summary} videoUrl={currentVideoUrl} />
     </div>
   );
 }
