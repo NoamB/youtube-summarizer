@@ -25,8 +25,44 @@ export default {
                     '0%': { transform: 'translateY(20px)', opacity: '0' },
                     '100%': { transform: 'translateY(0)', opacity: '1' },
                 }
-            }
+            },
+            typography: (theme) => ({
+                DEFAULT: {
+                    css: {
+                        color: theme('colors.gray.300'),
+                        h1: {
+                            color: theme('colors.white'),
+                            fontWeight: '800',
+                        },
+                        h2: {
+                            color: theme('colors.white'),
+                            fontWeight: '700',
+                            marginTop: '1.5em',
+                            marginBottom: '0.8em',
+                        },
+                        h3: {
+                            color: theme('colors.gray.100'),
+                            fontWeight: '600',
+                        },
+                        strong: {
+                            color: theme('colors.white'),
+                        },
+                        'ul > li::marker': {
+                            color: theme('colors.secondary'),
+                        },
+                        'ol > li::marker': {
+                            color: theme('colors.primary'),
+                        },
+                        blockquote: {
+                            borderLeftColor: theme('colors.primary'),
+                            color: theme('colors.gray.400'),
+                        },
+                    },
+                },
+            }),
         },
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/typography'),
+    ],
 }
