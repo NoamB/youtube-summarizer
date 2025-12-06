@@ -8,7 +8,7 @@ def summarize_text(text: str) -> str:
     """Sends text to Ollama for summarization."""
     
     prompt = f"""
-    You are a professional assistant that specializes in summarizing YouTube videos for C-level executives.
+    You are a professional assistant that specializes in summarizing YouTube videos for busy C-level executives that don't have time to watch them.
    
     A transcript will be provided below.
 
@@ -19,6 +19,9 @@ def summarize_text(text: str) -> str:
     4. Keep it short(not more than 500 words, 300 words is preferred) and to the point but don't miss any important insights and messages the speaker is trying to convey.
     5. Use markdown to format the text.
     6. Remove any promotional or self-promotional content.
+
+    Start with short paragraph summarizing the key messages in the video in 3-5 bullets.
+    Then provide a summary of key messages by section, providing timestamps for each section.
 
     Here is the transcript of a video:
     
