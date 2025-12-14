@@ -89,17 +89,21 @@ class GeminiProvider(LLMProvider):
             raise Exception(f"Failed to communicate with Gemini: {str(e)}")
 
 def get_llm_provider(provider_name: str = None) -> LLMProvider:
-    # 1. Use argument if provided
-    # 2. Use environment variable
-    # 3. Default to 'ollama'
-    if not provider_name:
-        provider_name = os.environ.get("LLM_PROVIDER", "ollama")
+    # 1. Use passed provider_name if available
+    if provider_name:
+        provider_name = provider_name.lower()
+        if provider_name == "ollama":
+             return OllamaProvider()
+        elif provider_name == "gemini":
+             return GeminiProvider()
+        else:
+            raise ValueError(f"Unknown LLM provider: {provider_name}")
     
-    provider_name = provider_name.lower()
-    
-    if provider_name == "gemini":
-        return GeminiProvider()
-    elif provider_name == "ollama":
+    # 2. Fallback to environment variable, with 'gemini' as default
+    env_provider = os.environ.get("LLM_PROVIDER", "gemini").lower()
+    if env_provider == "ollama":
         return OllamaProvider()
+    elif env_provider == "gemini":
+        return GeminiProvider()
     else:
-        raise ValueError(f"Unknown LLM provider: {provider_name}")
+        raise ValueError(f"Unknown LLM provider specified in LLM_PROVIDER environment variable: {env_provider}")

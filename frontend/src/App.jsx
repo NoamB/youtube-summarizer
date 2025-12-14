@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SummarizerForm from './components/SummarizerForm';
 import SummaryResult from './components/SummaryResult';
 
@@ -8,12 +8,23 @@ function App() {
   const [statusText, setStatusText] = useState('');
   const [error, setError] = useState(null);
   const [currentVideoUrl, setCurrentVideoUrl] = useState(null);
-  const [provider, setProvider] = useState('ollama');
+  const [provider, setProvider] = useState('gemini');
+  const [timer, setTimer] = useState(0);
   const [options, setOptions] = useState({
     includeCore: true,
     includeSections: true,
     lengthMode: 'normal'
   });
+
+  useEffect(() => {
+    let interval;
+    if (isLoading) {
+      interval = setInterval(() => {
+        setTimer(prev => prev + 0.1);
+      }, 100);
+    }
+    return () => clearInterval(interval);
+  }, [isLoading]);
 
   const handleSummarize = async (url) => {
     setIsLoading(true);
@@ -21,6 +32,7 @@ function App() {
     setSummary(null);
     setStatusText('Starting...');
     setCurrentVideoUrl(url);
+    setTimer(0);
 
     try {
       const response = await fetch('http://localhost:8000/api/summarize', {
@@ -108,26 +120,55 @@ function App() {
         setOptions={setOptions}
       />
 
-      {error && (
-        <div className="w-full max-w-lg mb-6 bg-red-900 border-2 border-red-500 rounded-lg p-4 shadow-lg animate-fade-in" role="alert">
-          <div className="flex items-start">
-            <div className="flex-shrink-0">
-              <svg className="h-6 w-6 text-red-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+      {/* Content Area */}
+      {currentVideoUrl && (
+        <div className="flex flex-col lg:flex-row gap-6 animate-fade-in">
+          {/* Video Column */}
+          <div className="w-full lg:w-1/3 flex flex-col gap-4">
+            <div className="relative pt-[56.25%] rounded-lg overflow-hidden border border-gray-700 shadow-lg bg-black">
+              <iframe
+                className="absolute top-0 left-0 w-full h-full"
+                src={`https://www.youtube.com/embed/${new URL(currentVideoUrl).searchParams.get('v')}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
             </div>
-            <div className="ml-3 w-full overflow-hidden">
-              <h3 className="text-lg font-bold text-white mb-2">Error Occurred</h3>
-              <div className="text-sm text-red-100 font-mono whitespace-pre-wrap break-words bg-red-950/50 p-2 rounded">
-                {error}
+
+            {/* Timer Display */}
+            {(isLoading || timer > 0) && (
+              <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700 text-center">
+                <span className="text-gray-400 text-sm font-medium mr-2">Generation Time:</span>
+                <span className={`font-mono font-bold text-lg ${isLoading ? 'text-green-400 animate-pulse' : 'text-gray-200'}`}>
+                  {timer.toFixed(1)}s
+                </span>
               </div>
-            </div>
+            )}
+          </div>
+
+          {/* Summary Column */}
+          <div className="w-full lg:w-2/3">
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4 mb-6 text-red-200 animate-shake">
+                <div className="flex items-center gap-3 mb-2">
+                  <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="font-bold text-lg">Error Occurred</span>
+                </div>
+                <pre className="whitespace-pre-wrap font-mono text-sm">{error}</pre>
+              </div>
+            )}
+
+            {summary && (
+              <div className="animate-slide-up">
+                <SummaryResult summary={summary} />
+              </div>
+            )}
           </div>
         </div>
       )}
-
-
-      <SummaryResult summary={summary} videoUrl={currentVideoUrl} />
     </div>
   );
 }
