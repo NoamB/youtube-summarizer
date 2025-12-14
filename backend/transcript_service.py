@@ -19,7 +19,7 @@ def fetch_transcript(video_url: str) -> str:
         raise ValueError("Invalid YouTube URL")
 
     try:
-        # Based on installed version 1.2.3 API: instance methods fetch() and list()
+        # Revert to version 1.2.3 API: instance methods fetch()
         ytt_api = YouTubeTranscriptApi()
         fetched_transcript = ytt_api.fetch(video_id)
         

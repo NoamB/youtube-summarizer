@@ -1,5 +1,9 @@
 fastapi
 uvicorn
-youtube-transcript-api
+youtube-transcript-api==1.2.3
 requests
 python-multipart
+google-generativeai
+python-dotenv
+urllib3<2.0.0
+importlib-metadata

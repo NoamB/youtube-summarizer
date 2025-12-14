@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 
-function SummarizerForm({ onSummarize, isLoading, statusText }) {
+function SummarizerForm({ onSummarize, isLoading, statusText, provider, setProvider }) {
     const [url, setUrl] = useState('');
 
     const handleSubmit = (e) => {
@@ -25,6 +25,15 @@ function SummarizerForm({ onSummarize, isLoading, statusText }) {
                             onChange={(e) => setUrl(e.target.value)}
                             disabled={isLoading}
                         />
+                        <select
+                            value={provider}
+                            onChange={(e) => setProvider(e.target.value)}
+                            disabled={isLoading}
+                            className="bg-gray-700 text-white text-sm border-y border-l border-gray-600 focus:ring-primary focus:border-primary px-4 py-4 outline-none transition-colors hover:bg-gray-600 cursor-pointer"
+                        >
+                            <option value="ollama">Ollama</option>
+                            <option value="gemini">Gemini</option>
+                        </select>
                         <button
                             type="submit"
                             disabled={isLoading}

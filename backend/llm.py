@@ -1,0 +1,86 @@
+from abc import ABC, abstractmethod
+import os
+import requests
+import json
+import google.generativeai as genai
+
+SUMMARY_PROMPT_TEMPLATE = """
+        You are a professional assistant that specializes in summarizing YouTube videos for busy C-level executives that don't have time to watch them.
+       
+        A transcript will be provided below.
+
+        Please provide a super concise summary of the core points, following these guidelines:
+        1. Use very short sentences. The shorter the better. The shortest needed to pass the message.
+        2. Merge repeated points and ideas into one point.
+        3. Make the text easy to read - spacious, no long blocks of text. Use indentation with titles and subtitles for easy context.
+        4. Keep it short(not more than 500 words, 300 words is preferred) and to the point but don't miss any important insights and messages the speaker is trying to convey.
+        5. Use markdown to format the text.
+        6. Remove any promotional or self-promotional content.
+
+        Start with short paragraph summarizing the key messages in the video in 3-5 bullets.
+        Then provide a summary of key messages by section, providing timestamps for each section.
+
+        Here is the transcript of a video:
+        
+        "{text}"
+        """
+
+class LLMProvider(ABC):
+    @abstractmethod
+    def summarize_text(self, text: str) -> str:
+        pass
+
+class OllamaProvider(LLMProvider):
+    def __init__(self):
+        self.api_url = "http://localhost:11434/api/generate"
+        self.model_name = "gemma3:12b-it-qat"
+
+    def summarize_text(self, text: str) -> str:
+        prompt = SUMMARY_PROMPT_TEMPLATE.format(text=text)
+
+        payload = {
+            "model": self.model_name,
+            "prompt": prompt,
+            "stream": False
+        }
+
+        try:
+            response = requests.post(self.api_url, json=payload)
+            response.raise_for_status()
+            result = response.json()
+            return result.get("response", "No response from Ollama")
+        except requests.exceptions.RequestException as e:
+            raise Exception(f"Failed to communicate with Ollama: {str(e)}")
+
+class GeminiProvider(LLMProvider):
+    def __init__(self):
+        api_key = os.environ.get("GEMINI_API_KEY")
+        if not api_key:
+             raise ValueError("GEMINI_API_KEY environment variable is not set")
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel('gemini-2.0-flash')
+
+    def summarize_text(self, text: str) -> str:
+        prompt = SUMMARY_PROMPT_TEMPLATE.format(text=text)
+        
+        try:
+            response = self.model.generate_content(prompt)
+            return response.text
+        except Exception as e:
+            raise Exception(f"Failed to communicate with Gemini: {str(e)}")
+
+def get_llm_provider(provider_name: str = None) -> LLMProvider:
+    # 1. Use argument if provided
+    # 2. Use environment variable
+    # 3. Default to 'ollama'
+    if not provider_name:
+        provider_name = os.environ.get("LLM_PROVIDER", "ollama")
+    
+    provider_name = provider_name.lower()
+    
+    if provider_name == "gemini":
+        return GeminiProvider()
+    elif provider_name == "ollama":
+        return OllamaProvider()
+    else:
+        raise ValueError(f"Unknown LLM provider: {provider_name}")

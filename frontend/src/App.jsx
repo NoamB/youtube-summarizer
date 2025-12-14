@@ -8,6 +8,7 @@ function App() {
   const [statusText, setStatusText] = useState('');
   const [error, setError] = useState(null);
   const [currentVideoUrl, setCurrentVideoUrl] = useState(null);
+  const [provider, setProvider] = useState('ollama');
 
   const handleSummarize = async (url) => {
     setIsLoading(true);
@@ -22,7 +23,7 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ url }),
+        body: JSON.stringify({ url, provider }),
       });
 
       if (!response.ok) {
@@ -82,7 +83,13 @@ function App() {
         </p>
       </div>
 
-      <SummarizerForm onSummarize={handleSummarize} isLoading={isLoading} statusText={statusText} />
+      <SummarizerForm
+        onSummarize={handleSummarize}
+        isLoading={isLoading}
+        statusText={statusText}
+        provider={provider}
+        setProvider={setProvider}
+      />
 
       {error && (
         <div className="w-full max-w-lg p-4 mb-4 text-sm text-red-400 bg-gray-800 rounded-lg border border-red-800" role="alert">
