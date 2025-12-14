@@ -55,23 +55,23 @@ function SummarizerForm({ onSummarize, isLoading, statusText, provider, setProvi
                         <div className="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
                             <h3 className="text-sm font-semibold text-gray-300 mb-3">Content</h3>
                             <div className="space-y-2">
-                                <label className="flex items-center space-x-3 cursor-pointer group">
+                                <label className="flex items-start space-x-3 cursor-pointer group">
                                     <input
                                         type="checkbox"
                                         checked={options.includeCore}
                                         onChange={(e) => setOptions({ ...options, includeCore: e.target.checked })}
-                                        className="form-checkbox h-5 w-5 text-primary rounded border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-primary transition duration-150 ease-in-out"
+                                        className="form-checkbox h-5 w-5 text-primary rounded border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-primary transition duration-150 ease-in-out mt-0.5"
                                     />
-                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors">Main core points</span>
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight">Main core points</span>
                                 </label>
-                                <label className="flex items-center space-x-3 cursor-pointer group">
+                                <label className="flex items-start space-x-3 cursor-pointer group">
                                     <input
                                         type="checkbox"
                                         checked={options.includeSections}
                                         onChange={(e) => setOptions({ ...options, includeSections: e.target.checked })}
-                                        className="form-checkbox h-5 w-5 text-primary rounded border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-primary transition duration-150 ease-in-out"
+                                        className="form-checkbox h-5 w-5 text-primary rounded border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-primary transition duration-150 ease-in-out mt-0.5"
                                     />
-                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors">Key points by section</span>
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight">Key points by section</span>
                                 </label>
                             </div>
                         </div>
@@ -79,27 +79,27 @@ function SummarizerForm({ onSummarize, isLoading, statusText, provider, setProvi
                         <div className="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
                             <h3 className="text-sm font-semibold text-gray-300 mb-3">Length</h3>
                             <div className="space-y-2">
-                                <label className="flex items-center space-x-3 cursor-pointer group">
+                                <label className="flex items-start space-x-3 cursor-pointer group">
                                     <input
                                         type="radio"
                                         name="length"
                                         value="normal"
                                         checked={options.lengthMode === 'normal'}
                                         onChange={(e) => setOptions({ ...options, lengthMode: e.target.value })}
-                                        className="form-radio h-5 w-5 text-secondary border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-secondary transition duration-150 ease-in-out"
+                                        className="form-radio h-5 w-5 text-secondary border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-secondary transition duration-150 ease-in-out mt-0.5"
                                     />
-                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors">Normal</span>
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight">Normal</span>
                                 </label>
-                                <label className="flex items-center space-x-3 cursor-pointer group">
+                                <label className="flex items-start space-x-3 cursor-pointer group">
                                     <input
                                         type="radio"
                                         name="length"
                                         value="extra_short"
                                         checked={options.lengthMode === 'extra_short'}
                                         onChange={(e) => setOptions({ ...options, lengthMode: e.target.value })}
-                                        className="form-radio h-5 w-5 text-secondary border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-secondary transition duration-150 ease-in-out"
+                                        className="form-radio h-5 w-5 text-secondary border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-secondary transition duration-150 ease-in-out mt-0.5"
                                     />
-                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors">Extra Short (One sentence/point)</span>
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight">Extra Short (One sentence/point)</span>
                                 </label>
                             </div>
                         </div>
