@@ -122,9 +122,10 @@ function App() {
 
       {/* Content Area */}
       {currentVideoUrl && (
-        <div className="flex flex-col lg:flex-row gap-6 animate-fade-in">
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
           {/* Video Column */}
-          <div className="w-full lg:w-1/3 flex flex-col gap-4">
+          <div className="lg:col-span-1 flex flex-col gap-4">
             <div className="relative pt-[56.25%] rounded-lg overflow-hidden border border-gray-700 shadow-lg bg-black">
               <iframe
                 className="absolute top-0 left-0 w-full h-full"
@@ -138,9 +139,9 @@ function App() {
 
             {/* Timer Display */}
             {(isLoading || timer > 0) && (
-              <div className="bg-gray-800/50 rounded-lg p-3 border border-gray-700 text-center">
-                <span className="text-gray-400 text-sm font-medium mr-2">Generation Time:</span>
-                <span className={`font-mono font-bold text-lg ${isLoading ? 'text-green-400 animate-pulse' : 'text-gray-200'}`}>
+              <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700 flex flex-col items-center justify-center">
+                <span className="text-gray-400 text-xs uppercase tracking-wider mb-1">Generation Time</span>
+                <span className={`font-mono font-bold text-3xl ${isLoading ? 'text-green-400 animate-pulse' : 'text-gray-200'}`}>
                   {timer.toFixed(1)}s
                 </span>
               </div>
@@ -148,7 +149,7 @@ function App() {
           </div>
 
           {/* Summary Column */}
-          <div className="w-full lg:w-2/3">
+          <div className="lg:col-span-2">
             {error && (
               <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4 mb-6 text-red-200 animate-shake">
                 <div className="flex items-center gap-3 mb-2">
