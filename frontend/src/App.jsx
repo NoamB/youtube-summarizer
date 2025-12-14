@@ -7,8 +7,10 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [statusText, setStatusText] = useState('');
   const [error, setError] = useState(null);
-  const [currentVideoUrl, setCurrentVideoUrl] = useState(null);
+  const [url, setUrl] = useState('');
   const [provider, setProvider] = useState('gemini');
+  const [model, setModel] = useState('');
+  const [availableModels, setAvailableModels] = useState([]);
   const [timer, setTimer] = useState(0);
   const [options, setOptions] = useState({
     includeCore: true,
@@ -26,12 +28,39 @@ function App() {
     return () => clearInterval(interval);
   }, [isLoading]);
 
+  // Fetch available models when provider changes
+  useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const response = await fetch(`http://localhost:8000/api/models/${provider}`);
+        const data = await response.json();
+        setAvailableModels(data.models || []);
+        // Set default model
+        if (data.models && data.models.length > 0) {
+          // For gemini, prefer gemini-2.5-flash if available
+          if (provider === 'gemini') {
+            const preferred = data.models.find(m => m.includes('2.5-flash'));
+            setModel(preferred || data.models[0]);
+          } else {
+            setModel(data.models[0]);
+          }
+        } else {
+          setModel('');
+        }
+      } catch (e) {
+        console.error('Error fetching models:', e);
+        setAvailableModels([]);
+        setModel('');
+      }
+    };
+    fetchModels();
+  }, [provider]);
+
   const handleSummarize = async (url) => {
     setIsLoading(true);
     setError(null);
     setSummary(null);
     setStatusText('Starting...');
-    setCurrentVideoUrl(url);
     setTimer(0);
 
     try {
@@ -43,6 +72,7 @@ function App() {
         body: JSON.stringify({
           url,
           provider,
+          model,
           include_core: options.includeCore,
           include_sections: options.includeSections,
           length_mode: options.lengthMode
@@ -99,6 +129,15 @@ function App() {
     }
   };
 
+  const getVideoId = (url) => {
+    if (!url) return null;
+    const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(regExp);
+    return match ? match[1] : null;
+  };
+
+  const videoId = getVideoId(url);
+
   return (
     <div className="min-h-screen bg-dark flex flex-col items-center py-20 px-4">
       <div className="text-center mb-16 animate-slide-up">
@@ -111,31 +150,38 @@ function App() {
       </div>
 
       <SummarizerForm
-        onSummarize={handleSummarize}
+        onSummarize={() => handleSummarize(url)}
         isLoading={isLoading}
         statusText={statusText}
         provider={provider}
         setProvider={setProvider}
+        model={model}
+        setModel={setModel}
+        availableModels={availableModels}
         options={options}
         setOptions={setOptions}
+        url={url}
+        setUrl={setUrl}
       />
 
       {/* Content Area */}
-      {currentVideoUrl && (
+      {(videoId || summary || error) && (
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
           {/* Video Column */}
           <div className="lg:col-span-1 flex flex-col gap-4">
-            <div className="relative pt-[56.25%] rounded-lg overflow-hidden border border-gray-700 shadow-lg bg-black">
-              <iframe
-                className="absolute top-0 left-0 w-full h-full"
-                src={`https://www.youtube.com/embed/${new URL(currentVideoUrl).searchParams.get('v')}`}
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
+            {videoId && (
+              <div className="relative pt-[56.25%] rounded-lg overflow-hidden border border-gray-700 shadow-lg bg-black">
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src={`https://www.youtube.com/embed/${videoId}`}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            )}
 
             {/* Timer Display */}
             {(isLoading || timer > 0) && (

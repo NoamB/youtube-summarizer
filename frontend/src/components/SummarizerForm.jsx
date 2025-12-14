@@ -1,18 +1,17 @@
 
-import { useState } from 'react';
 
-function SummarizerForm({ onSummarize, isLoading, statusText, provider, setProvider, options, setOptions }) {
-    const [url, setUrl] = useState('');
+
+function SummarizerForm({ onSummarize, isLoading, statusText, provider, setProvider, model, setModel, availableModels, options, setOptions, url, setUrl }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (url.trim()) {
-            onSummarize(url);
+            onSummarize();
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto mb-10 animate-slide-up">
+        <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto mb-10 animate-slide-up">
             <div className="relative group">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt"></div>
                 <div className="relative flex flex-col">
@@ -35,6 +34,29 @@ function SummarizerForm({ onSummarize, isLoading, statusText, provider, setProvi
                             >
                                 <option value="ollama">Ollama</option>
                                 <option value="gemini">Gemini</option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-200">
+                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                            </div>
+                        </div>
+                        {/* Model Dropdown */}
+                        <div className="relative">
+                            <select
+                                value={model}
+                                onChange={(e) => setModel(e.target.value)}
+                                disabled={isLoading || availableModels.length === 0}
+                                className="h-full pl-4 pr-10 bg-gray-700 text-white text-sm focus:outline-none cursor-pointer appearance-none border-r border-gray-600 hover:bg-gray-600 transition-colors max-w-[180px] truncate"
+                                style={{ textAlignLast: 'center' }}
+                            >
+                                {availableModels.length === 0 ? (
+                                    <option value="">Loading...</option>
+                                ) : (
+                                    availableModels.map((m) => (
+                                        <option key={m} value={m}>{m}</option>
+                                    ))
+                                )}
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-200">
                                 <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

@@ -15,6 +15,10 @@ start_servers() {
         echo "Backend is already running (PID: $(cat "$BACKEND_PID_FILE"))"
     else
         echo "Starting Backend..."
+        # Fetch Ollama models
+        echo "Fetching available Ollama models..."
+        $VENV_PYTHON "$PROJECT_ROOT/backend/fetch_ollama_models.py"
+
         # Explicitly overwrite log file
         > "$PROJECT_ROOT/backend.log"
         nohup $UVICORN_CMD > "$PROJECT_ROOT/backend.log" 2>&1 &

@@ -52,13 +52,14 @@ class LLMProvider(ABC):
 class OllamaProvider(LLMProvider):
     def __init__(self):
         self.api_url = "http://localhost:11434/api/generate"
-        self.model_name = "gemma3:12b-it-qat"
+        self.default_model = "gemma3:12b-it-qat"
 
     def summarize_text(self, text: str, **kwargs) -> str:
         prompt = generate_prompt(text, **kwargs)
+        model_name = kwargs.get("model_name") or self.default_model
 
         payload = {
-            "model": self.model_name,
+            "model": model_name,
             "prompt": prompt,
             "stream": False
         }
@@ -77,13 +78,15 @@ class GeminiProvider(LLMProvider):
         if not api_key:
              raise ValueError("GEMINI_API_KEY environment variable is not set")
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-2.5-flash')
+        self.default_model_name = 'gemini-2.5-flash'
 
     def summarize_text(self, text: str, **kwargs) -> str:
         prompt = generate_prompt(text, **kwargs)
+        model_name = kwargs.get("model_name") or self.default_model_name
         
         try:
-            response = self.model.generate_content(prompt)
+            model = genai.GenerativeModel(model_name)
+            response = model.generate_content(prompt)
             return response.text
         except Exception as e:
             raise Exception(f"Failed to communicate with Gemini: {str(e)}")
