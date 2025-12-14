@@ -92,10 +92,23 @@ function App() {
       />
 
       {error && (
-        <div className="w-full max-w-lg p-4 mb-4 text-sm text-red-400 bg-gray-800 rounded-lg border border-red-800" role="alert">
-          <span className="font-medium">Error:</span> {error}
+        <div className="w-full max-w-lg mb-6 bg-red-900 border-2 border-red-500 rounded-lg p-4 shadow-lg animate-fade-in" role="alert">
+          <div className="flex items-start">
+            <div className="flex-shrink-0">
+              <svg className="h-6 w-6 text-red-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div className="ml-3 w-full overflow-hidden">
+              <h3 className="text-lg font-bold text-white mb-2">Error Occurred</h3>
+              <div className="text-sm text-red-100 font-mono whitespace-pre-wrap break-words bg-red-950/50 p-2 rounded">
+                {error}
+              </div>
+            </div>
+          </div>
         </div>
       )}
+
 
       <SummaryResult summary={summary} videoUrl={currentVideoUrl} />
     </div>
