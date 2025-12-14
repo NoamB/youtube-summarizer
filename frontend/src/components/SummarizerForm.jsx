@@ -54,52 +54,52 @@ function SummarizerForm({ onSummarize, isLoading, statusText, provider, setProvi
                     <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
                         <div className="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
                             <h3 className="text-sm font-semibold text-gray-300 mb-3">Content</h3>
-                            <div className="space-y-2">
-                                <label className="flex items-start space-x-3 cursor-pointer group">
+                            <div className="flex flex-col gap-2 items-start w-full">
+                                <label className="flex items-start gap-3 cursor-pointer group w-full text-left">
                                     <input
                                         type="checkbox"
                                         checked={options.includeCore}
                                         onChange={(e) => setOptions({ ...options, includeCore: e.target.checked })}
-                                        className="form-checkbox h-5 w-5 text-primary rounded border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-primary transition duration-150 ease-in-out mt-0.5"
+                                        className="form-checkbox h-5 w-5 text-primary rounded border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-primary transition duration-150 ease-in-out mt-0.5 flex-shrink-0"
                                     />
-                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight">Main core points</span>
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight pt-0.5">Main core points</span>
                                 </label>
-                                <label className="flex items-start space-x-3 cursor-pointer group">
+                                <label className="flex items-start gap-3 cursor-pointer group w-full text-left">
                                     <input
                                         type="checkbox"
                                         checked={options.includeSections}
                                         onChange={(e) => setOptions({ ...options, includeSections: e.target.checked })}
-                                        className="form-checkbox h-5 w-5 text-primary rounded border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-primary transition duration-150 ease-in-out mt-0.5"
+                                        className="form-checkbox h-5 w-5 text-primary rounded border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-primary transition duration-150 ease-in-out mt-0.5 flex-shrink-0"
                                     />
-                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight">Key points by section</span>
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight pt-0.5">Key points by section</span>
                                 </label>
                             </div>
                         </div>
 
                         <div className="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
-                            <h3 className="text-sm font-semibold text-gray-300 mb-3">Length</h3>
-                            <div className="space-y-2">
-                                <label className="flex items-start space-x-3 cursor-pointer group">
+                            <h3 className="text-sm font-semibold text-gray-300 mb-3 text-left">Length</h3>
+                            <div className="flex flex-col gap-2 items-start w-full">
+                                <label className="flex items-start gap-3 cursor-pointer group w-full text-left">
                                     <input
                                         type="radio"
                                         name="length"
                                         value="normal"
                                         checked={options.lengthMode === 'normal'}
                                         onChange={(e) => setOptions({ ...options, lengthMode: e.target.value })}
-                                        className="form-radio h-5 w-5 text-secondary border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-secondary transition duration-150 ease-in-out mt-0.5"
+                                        className="form-radio h-5 w-5 text-secondary border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-secondary transition duration-150 ease-in-out mt-0.5 flex-shrink-0"
                                     />
-                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight">Normal</span>
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight pt-0.5">Normal</span>
                                 </label>
-                                <label className="flex items-start space-x-3 cursor-pointer group">
+                                <label className="flex items-start gap-3 cursor-pointer group w-full text-left">
                                     <input
                                         type="radio"
                                         name="length"
                                         value="extra_short"
                                         checked={options.lengthMode === 'extra_short'}
                                         onChange={(e) => setOptions({ ...options, lengthMode: e.target.value })}
-                                        className="form-radio h-5 w-5 text-secondary border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-secondary transition duration-150 ease-in-out mt-0.5"
+                                        className="form-radio h-5 w-5 text-secondary border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-secondary transition duration-150 ease-in-out mt-0.5 flex-shrink-0"
                                     />
-                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight">Extra Short (One sentence/point)</span>
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight pt-0.5">Extra Short (One sentence/point)</span>
                                 </label>
                             </div>
                         </div>
