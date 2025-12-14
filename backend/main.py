@@ -1,18 +1,3 @@
-import warnings
-import sys
-# Suppress google-api-core python version warning
-warnings.filterwarnings("ignore", category=FutureWarning, module="google.api_core")
-
-# Monkeypatch importlib.metadata for Python < 3.10
-if sys.version_info < (3, 10):
-    try:
-        import importlib.metadata
-        import importlib_metadata
-        if not hasattr(importlib.metadata, "packages_distributions"):
-            importlib.metadata.packages_distributions = importlib_metadata.packages_distributions
-    except ImportError:
-        pass
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
