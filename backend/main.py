@@ -39,7 +39,7 @@ async def summarize_video(request: SummarizeRequest):
             # Simple yield adjustment to ensure frontend receives it
             await asyncio.sleep(0.1) 
             
-            transcript = fetch_transcript(request.url)
+            transcript, video_duration = fetch_transcript(request.url)
             
             # 2. Summarize
             if len(transcript) > 20000:
@@ -58,7 +58,17 @@ async def summarize_video(request: SummarizeRequest):
                 model_name=request.model
             )
             
-            yield json.dumps({"type": "result", "summary": summary}) + "\n"
+            # Calculate reading time (average 200 words per minute)
+            word_count = len(summary.split())
+            reading_time_seconds = (word_count / 200) * 60
+            
+            yield json.dumps({
+                "type": "result", 
+                "summary": summary,
+                "video_duration": video_duration,
+                "reading_time": reading_time_seconds,
+                "word_count": word_count
+            }) + "\n"
             
         except ValueError as ve:
              yield json.dumps({"type": "error", "message": str(ve)}) + "\n"

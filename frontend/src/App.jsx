@@ -12,6 +12,7 @@ function App() {
   const [model, setModel] = useState('');
   const [availableModels, setAvailableModels] = useState([]);
   const [timer, setTimer] = useState(0);
+  const [timeMetrics, setTimeMetrics] = useState(null);
   const [options, setOptions] = useState({
     includeCore: true,
     includeSections: true,
@@ -114,6 +115,11 @@ function App() {
             setStatusText(data.message);
           } else if (data.type === 'result') {
             setSummary(data.summary);
+            setTimeMetrics({
+              videoDuration: data.video_duration,
+              readingTime: data.reading_time,
+              wordCount: data.word_count
+            });
           } else if (data.type === 'error') {
             throw new Error(data.message);
           }
@@ -190,6 +196,35 @@ function App() {
                 <span className={`font-mono font-bold text-3xl ${isLoading ? 'text-green-400 animate-pulse' : 'text-gray-200'}`}>
                   {timer.toFixed(1)}s
                 </span>
+              </div>
+            )}
+
+            {/* Time Saved Metrics */}
+            {timeMetrics && (
+              <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 rounded-lg p-4 border border-gray-700">
+                <div className="grid grid-cols-3 gap-3 text-center">
+                  <div>
+                    <span className="text-gray-400 text-xs uppercase tracking-wider block mb-1">Watch Time</span>
+                    <span className="font-mono font-bold text-lg text-white">
+                      {Math.floor(timeMetrics.videoDuration / 60)}:{String(Math.floor(timeMetrics.videoDuration % 60)).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-gray-400 text-xs uppercase tracking-wider block mb-1">Read Time</span>
+                    <span className="font-mono font-bold text-lg text-white">
+                      {Math.floor(timeMetrics.readingTime / 60)}:{String(Math.floor(timeMetrics.readingTime % 60)).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-gray-400 text-xs uppercase tracking-wider block mb-1">Time Saved</span>
+                    <span className="font-mono font-bold text-lg text-green-400">
+                      {Math.floor((timeMetrics.videoDuration - timeMetrics.readingTime) / 60)}:{String(Math.floor((timeMetrics.videoDuration - timeMetrics.readingTime) % 60)).padStart(2, '0')}
+                    </span>
+                  </div>
+                </div>
+                <div className="text-center mt-2 text-gray-500 text-xs">
+                  {timeMetrics.wordCount} words • ~200 wpm reading speed
+                </div>
               </div>
             )}
           </div>

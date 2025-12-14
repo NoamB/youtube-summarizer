@@ -12,8 +12,10 @@ def get_video_id(url: str) -> str:
         return match.group(1)
     return None
 
-def fetch_transcript(video_url: str) -> str:
-    """Fetches the transcript for a given YouTube video URL."""
+def fetch_transcript(video_url: str) -> tuple[str, float]:
+    """Fetches the transcript for a given YouTube video URL.
+    Returns tuple of (transcript_text, video_duration_seconds)
+    """
     video_id = get_video_id(video_url)
     if not video_id:
         raise ValueError("Invalid YouTube URL")
@@ -23,9 +25,15 @@ def fetch_transcript(video_url: str) -> str:
         ytt_api = YouTubeTranscriptApi()
         fetched_transcript = ytt_api.fetch(video_id)
         
+        # Calculate video duration from last segment
+        duration_seconds = 0.0
+        if fetched_transcript:
+            last_segment = fetched_transcript[-1]
+            duration_seconds = last_segment.start + last_segment.duration
+        
         formatter = TextFormatter()
         text_transcript = formatter.format_transcript(fetched_transcript)
-        return text_transcript
+        return text_transcript, duration_seconds
     except Exception as e:
         raise Exception(f"Failed to fetch transcript: {str(e)}")
 
