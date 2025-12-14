@@ -48,17 +48,21 @@ function App() {
 
         for (const line of lines) {
           if (!line.trim()) continue;
+
+          let data;
           try {
-            const data = JSON.parse(line);
-            if (data.type === 'status') {
-              setStatusText(data.message);
-            } else if (data.type === 'result') {
-              setSummary(data.summary);
-            } else if (data.type === 'error') {
-              throw new Error(data.message);
-            }
+            data = JSON.parse(line);
           } catch (e) {
             console.error("Error parsing stream JSON", e, line);
+            continue;
+          }
+
+          if (data.type === 'status') {
+            setStatusText(data.message);
+          } else if (data.type === 'result') {
+            setSummary(data.summary);
+          } else if (data.type === 'error') {
+            throw new Error(data.message);
           }
         }
       }
