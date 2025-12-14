@@ -55,8 +55,8 @@ class OllamaProvider(LLMProvider):
         self.default_model = "gemma3:12b-it-qat"
 
     def summarize_text(self, text: str, **kwargs) -> str:
+        model_name = kwargs.pop("model_name", None) or self.default_model
         prompt = generate_prompt(text, **kwargs)
-        model_name = kwargs.get("model_name") or self.default_model
 
         payload = {
             "model": model_name,
@@ -81,8 +81,8 @@ class GeminiProvider(LLMProvider):
         self.default_model_name = 'gemini-2.5-flash'
 
     def summarize_text(self, text: str, **kwargs) -> str:
+        model_name = kwargs.pop("model_name", None) or self.default_model_name
         prompt = generate_prompt(text, **kwargs)
-        model_name = kwargs.get("model_name") or self.default_model_name
         
         try:
             model = genai.GenerativeModel(model_name)
