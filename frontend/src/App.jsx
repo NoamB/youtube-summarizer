@@ -9,6 +9,11 @@ function App() {
   const [error, setError] = useState(null);
   const [currentVideoUrl, setCurrentVideoUrl] = useState(null);
   const [provider, setProvider] = useState('ollama');
+  const [options, setOptions] = useState({
+    includeCore: true,
+    includeSections: true,
+    lengthMode: 'normal'
+  });
 
   const handleSummarize = async (url) => {
     setIsLoading(true);
@@ -23,7 +28,13 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ url, provider }),
+        body: JSON.stringify({
+          url,
+          provider,
+          include_core: options.includeCore,
+          include_sections: options.includeSections,
+          length_mode: options.lengthMode
+        }),
       });
 
       if (!response.ok) {
@@ -93,6 +104,8 @@ function App() {
         statusText={statusText}
         provider={provider}
         setProvider={setProvider}
+        options={options}
+        setOptions={setOptions}
       />
 
       {error && (

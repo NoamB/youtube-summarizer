@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 
-function SummarizerForm({ onSummarize, isLoading, statusText, provider, setProvider }) {
+function SummarizerForm({ onSummarize, isLoading, statusText, provider, setProvider, options, setOptions }) {
     const [url, setUrl] = useState('');
 
     const handleSubmit = (e) => {
@@ -49,6 +49,62 @@ function SummarizerForm({ onSummarize, isLoading, statusText, provider, setProvi
                             ) : 'Summarize'}
                         </button>
                     </div>
+
+                    {/* Options Section */}
+                    <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
+                        <div className="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
+                            <h3 className="text-sm font-semibold text-gray-300 mb-3">Content</h3>
+                            <div className="space-y-2">
+                                <label className="flex items-center space-x-3 cursor-pointer group">
+                                    <input
+                                        type="checkbox"
+                                        checked={options.includeCore}
+                                        onChange={(e) => setOptions({ ...options, includeCore: e.target.checked })}
+                                        className="form-checkbox h-5 w-5 text-primary rounded border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-primary transition duration-150 ease-in-out"
+                                    />
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors">Main core points</span>
+                                </label>
+                                <label className="flex items-center space-x-3 cursor-pointer group">
+                                    <input
+                                        type="checkbox"
+                                        checked={options.includeSections}
+                                        onChange={(e) => setOptions({ ...options, includeSections: e.target.checked })}
+                                        className="form-checkbox h-5 w-5 text-primary rounded border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-primary transition duration-150 ease-in-out"
+                                    />
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors">Key points by section</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div className="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
+                            <h3 className="text-sm font-semibold text-gray-300 mb-3">Length</h3>
+                            <div className="space-y-2">
+                                <label className="flex items-center space-x-3 cursor-pointer group">
+                                    <input
+                                        type="radio"
+                                        name="length"
+                                        value="normal"
+                                        checked={options.lengthMode === 'normal'}
+                                        onChange={(e) => setOptions({ ...options, lengthMode: e.target.value })}
+                                        className="form-radio h-5 w-5 text-secondary border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-secondary transition duration-150 ease-in-out"
+                                    />
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors">Normal</span>
+                                </label>
+                                <label className="flex items-center space-x-3 cursor-pointer group">
+                                    <input
+                                        type="radio"
+                                        name="length"
+                                        value="extra_short"
+                                        checked={options.lengthMode === 'extra_short'}
+                                        onChange={(e) => setOptions({ ...options, lengthMode: e.target.value })}
+                                        className="form-radio h-5 w-5 text-secondary border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-secondary transition duration-150 ease-in-out"
+                                    />
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors">Extra Short (One sentence/point)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
                     {statusText && (
                         <div className="absolute top-full left-0 w-full mt-2 text-center text-sm text-purple-300 animate-pulse font-medium">
                             {statusText}

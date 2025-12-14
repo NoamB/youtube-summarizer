@@ -21,6 +21,9 @@ app.add_middleware(
 class SummarizeRequest(BaseModel):
     url: str
     provider: str = None
+    include_core: bool = True
+    include_sections: bool = True
+    length_mode: str = "normal"
 
 from fastapi.responses import StreamingResponse
 import json
@@ -46,7 +49,12 @@ async def summarize_video(request: SummarizeRequest):
             await asyncio.sleep(0.1)
             
             provider = get_llm_provider(request.provider)
-            summary = provider.summarize_text(transcript)
+            summary = provider.summarize_text(
+                transcript, 
+                include_core=request.include_core, 
+                include_sections=request.include_sections, 
+                length_mode=request.length_mode
+            )
             
             yield json.dumps({"type": "result", "summary": summary}) + "\n"
             
