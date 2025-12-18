@@ -92,7 +92,7 @@ function SummarizerForm({ onSummarize, isLoading, statusText, provider, setProvi
                                         onChange={(e) => setOptions({ ...options, includeCore: e.target.checked })}
                                         className="form-checkbox h-5 w-5 text-primary rounded border-gray-600 bg-gray-700 focus:ring-offset-gray-800 focus:ring-2 focus:ring-primary transition duration-150 ease-in-out mt-0.5 flex-shrink-0"
                                     />
-                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight pt-0.5">Main core points</span>
+                                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors leading-tight pt-0.5">Core points</span>
                                 </label>
                                 <label className="flex items-start gap-3 cursor-pointer group w-full text-left">
                                     <input

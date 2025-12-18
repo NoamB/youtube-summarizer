@@ -6,7 +6,7 @@ import google.generativeai as genai
 
 def generate_prompt(text: str, include_core: bool = True, include_sections: bool = True, length_mode: str = "normal") -> str:
     instructions = [
-        "1. Use very short sentences. The shorter the better. The shortest needed to pass the message.",
+        "1. Return the summary and only the summary, without any additional text.",
         "2. Merge repeated points and ideas into one point.",
         "3. Make the text easy to read - spacious, no long blocks of text. Use indentation with titles and subtitles for easy context.",
         "4. Remove any promotional or self-promotional content.",
@@ -20,7 +20,7 @@ def generate_prompt(text: str, include_core: bool = True, include_sections: bool
 
     structure_instructions = []
     if include_core:
-        structure_instructions.append("Start with short paragraph summarizing the key messages in the video in 3-5 bullets.")
+        structure_instructions.append("Start with a short paragraph summarizing the key messages in the video in 3-5 bullets.")
     
     if include_sections:
         structure_instructions.append("Then provide a summary of key messages by section, providing timestamps for each section.")
@@ -30,16 +30,16 @@ def generate_prompt(text: str, include_core: bool = True, include_sections: bool
          structure_instructions.append("Provide a concise summary of the video.")
 
     return f"""
-        You are a professional assistant that specializes in summarizing YouTube videos for busy C-level executives that don't have time to watch them.
+        You are a professional assistant that specializes in summarizing YouTube videos for busy business professionals that don't have time to watch them.
        
         A transcript will be provided below.
 
-        Please provide a super concise summary of the core points, following these guidelines:
+        Provide a summary following these guidelines:
         {chr(10).join(instructions)}
 
         {chr(10).join(structure_instructions)}
 
-        Here is the transcript of a video:
+        Here is the transcript of the video:
         
         "{text}"
         """
