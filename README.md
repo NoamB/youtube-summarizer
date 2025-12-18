@@ -19,7 +19,7 @@ Before you begin, ensure you have the following installed:
 ## Setup Instructions
 
 ### 1. Ollama Setup
-Install Ollama and pull the required model. The application is configured to use `gemma3:12b-it-qat`.
+Install Ollama and pull the required model. The application is configured to use the model `gemma3:12b-it-qat` by default.
 
 ```bash
 ollama serve
@@ -38,6 +38,10 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r ../requirements.txt
+
+# Environment variables - 'export' these in shell or put them in your .env file
+LLM_PROVIDER=gemini # or 'ollama'
+GEMINI_API_KEY=your_gemini_api_key # only needed if using Gemini
 
 # Run the server
 uvicorn backend.main:app --reload --port 8000
