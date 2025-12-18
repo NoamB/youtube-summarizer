@@ -1,12 +1,12 @@
 # YouTube Video Summarizer
 
-A powerful web application that generates concise summaries of YouTube videos using a local LLM (Ollama).
+A web application that generates summaries of YouTube videos using either a local LLM (Ollama) or an online API (Gemini).
 
 ## Features
 - **Video Summarization**: Fetches transcripts and generates structured summaries.
 - **Embedded Player**: Watch the video directly on the results page.
 - **Clickable Timestamps**: Timestamps in the summary are interactive links that seek the video to the specific time.
-- **Progress Indicators**: Real-time feedback ("Fetching transcript...", "Generating summary...").
+- **Progress Indicators**: Real-time feedback ("Fetching transcript...", "Generating summary..."). Tells you how much time you saved by not watching the video.
 - **Premium UI**: Modern dark-mode interface built with React and Tailwind CSS.
 
 ## Prerequisites
@@ -33,7 +33,7 @@ The backend is a FastAPI application.
 ```bash
 cd backend
 # Create a virtual environment (optional but recommended)
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
@@ -55,7 +55,7 @@ npm install
 # Run the development server
 npm run dev
 ```
-The application will act `http://localhost:5173`.
+The application will be available at `http://localhost:5173`.
 
 ## Usage
 1. Ensure both Backend (`uvicorn`) and Frontend (`npm run dev`) servers are running.
