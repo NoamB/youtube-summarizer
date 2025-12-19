@@ -14,7 +14,7 @@ def generate_prompt(text: str, include_core: bool = True, include_sections: bool
     ]
 
     if length_mode == "extra_short":
-        instructions.append("6. Write just one sentence per important key message.")
+        instructions.append("6. Write exactly just one sentence per point. You are not allowed more than that. Both in key messages section and in key messages by section.")
     else:
         instructions.append("6. Keep it short(not more than 500 words, 300 words is preferred) and to the point but don't miss any important insights and messages the speaker is trying to convey.")
 
