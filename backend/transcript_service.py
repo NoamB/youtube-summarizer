@@ -1,5 +1,5 @@
 from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api.formatters import TextFormatter
+from youtube_transcript_api.formatters import SRTFormatter
 import re
 
 def get_video_id(url: str) -> str:
@@ -31,9 +31,9 @@ def fetch_transcript(video_url: str) -> tuple[str, float]:
             last_segment = fetched_transcript[-1]
             duration_seconds = last_segment.start + last_segment.duration
         
-        formatter = TextFormatter()
-        text_transcript = formatter.format_transcript(fetched_transcript)
-        return text_transcript, duration_seconds
+        formatter = SRTFormatter()
+        srt_transcript = formatter.format_transcript(fetched_transcript)
+        return srt_transcript, duration_seconds
     except Exception as e:
         raise Exception(f"Failed to fetch transcript: {str(e)}")
 
