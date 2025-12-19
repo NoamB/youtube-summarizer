@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import YouTube from 'react-youtube';
 import SummarizerForm from './components/SummarizerForm';
 import SummaryResult from './components/SummaryResult';
 
@@ -18,6 +19,9 @@ function App() {
     includeSections: true,
     lengthMode: 'normal'
   });
+
+  const videoPlayerRef = useRef(null);
+  const videoContainerRef = useRef(null);
 
   useEffect(() => {
     let interval;
@@ -144,6 +148,30 @@ function App() {
 
   const videoId = getVideoId(url);
 
+  const handleSeek = (seconds) => {
+    if (videoPlayerRef.current) {
+      videoPlayerRef.current.seekTo(seconds, true);
+      videoPlayerRef.current.playVideo();
+
+      // Scroll to video
+      if (videoContainerRef.current) {
+        videoContainerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
+
+  const onPlayerReady = (event) => {
+    videoPlayerRef.current = event.target;
+  };
+
+  const playerOpts = {
+    height: '100%',
+    width: '100%',
+    playerVars: {
+      autoplay: 0,
+    },
+  };
+
   return (
     <div className="min-h-screen bg-dark flex flex-col items-center py-20 px-4">
       <div className="text-center mb-16 animate-slide-up">
@@ -177,15 +205,14 @@ function App() {
           {/* Video Column */}
           <div className="lg:col-span-1 flex flex-col gap-4">
             {videoId && (
-              <div className="relative pt-[56.25%] rounded-lg overflow-hidden border border-gray-700 shadow-lg bg-black">
-                <iframe
+              <div ref={videoContainerRef} className="relative pt-[56.25%] rounded-lg overflow-hidden border border-gray-700 shadow-lg bg-black">
+                <YouTube
+                  videoId={videoId}
+                  opts={playerOpts}
+                  onReady={onPlayerReady}
                   className="absolute top-0 left-0 w-full h-full"
-                  src={`https://www.youtube.com/embed/${videoId}`}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+                  iframeClassName="w-full h-full"
+                />
               </div>
             )}
 
@@ -245,7 +272,7 @@ function App() {
 
             {summary && (
               <div className="animate-slide-up">
-                <SummaryResult summary={summary} />
+                <SummaryResult summary={summary} onSeek={handleSeek} />
               </div>
             )}
           </div>
