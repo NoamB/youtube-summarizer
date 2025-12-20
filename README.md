@@ -68,6 +68,29 @@ The application will be available at `http://localhost:5173`.
 4. Paste a YouTube video URL (e.g., `https://www.youtube.com/watch?v=...`).
 5. Click **Summarize**.
 6. View the summary and click timestamps to jump to key moments in the video.
+7. You'll need `google-generative-ai` api key for gemini provider.
+
+## Running with Docker
+
+The application can be run as a single Docker container containing both the frontend and backend.
+
+### 1. Build the Image
+```bash
+./build_docker.sh
+```
+
+### 2. Run the Container
+```bash
+# Provide your Gemini API key if you plan to use it
+export GEMINI_API_KEY=your_key_here
+./run_docker.sh
+```
+
+- The UI will be available at `http://localhost:5173`.
+- The Backend API will be available at `http://localhost:8000`.
+
+> [!NOTE]
+> By default, the Docker setup is configured to reach Ollama on your host machine using `host.docker.internal`. Ensure Ollama is running on your host. If you need to point to a different host, you can set the `OLLAMA_HOST` environment variable when running `run_docker.sh`.
 
 ## Tech Stack
 - **Backend**: FastAPI, youtube-transcript-api, Requests

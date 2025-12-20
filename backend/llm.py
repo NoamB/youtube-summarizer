@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 import os
 import requests
-import json
 import google.generativeai as genai
 
 def generate_prompt(text: str, include_core: bool = True, include_sections: bool = True, length_mode: str = "normal") -> str:
@@ -51,7 +50,7 @@ class LLMProvider(ABC):
 
 class OllamaProvider(LLMProvider):
     def __init__(self):
-        self.api_url = "http://localhost:11434/api/generate"
+        self.api_url = f"http://{os.getenv('OLLAMA_HOST', 'host.docker.internal')}:11434/api/generate"
         self.default_model = "gemma3:12b-it-qat"
 
     def summarize_text(self, text: str, **kwargs) -> str:

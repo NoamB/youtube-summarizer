@@ -37,7 +37,8 @@ function App() {
   useEffect(() => {
     const fetchModels = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/models/${provider}`);
+        const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+        const response = await fetch(`${apiBaseUrl}/api/models/${provider}`);
         const data = await response.json();
         setAvailableModels(data.models || []);
         // Set default model
@@ -69,7 +70,8 @@ function App() {
     setTimer(0);
 
     try {
-      const response = await fetch('http://localhost:8000/api/summarize', {
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+      const response = await fetch(`${apiBaseUrl}/api/summarize`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -45,9 +45,6 @@ async def summarize_video(request: SummarizeRequest):
             if len(transcript) > 100000:
                 yield json.dumps({"type": "status", "message": "Truncating transcript (too long)..."}) + "\n"
                 transcript = transcript[:100000] + "...(truncated)"
-            
-            # debug log the transcript to STDOUT
-            print(f"Transcript: {transcript}")
 
             yield json.dumps({"type": "status", "message": f"Generating summary with {request.provider or 'default'}..."}) + "\n"
             await asyncio.sleep(0.1)
