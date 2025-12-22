@@ -92,6 +92,27 @@ export GEMINI_API_KEY=your_key_here
 > [!NOTE]
 > By default, the Docker setup is configured to reach Ollama on your host machine using `host.docker.internal`. Ensure Ollama is running on your host. If you need to point to a different host, you can set the `OLLAMA_HOST` environment variable when running `run_docker.sh`.
 
+## Browser Extensions
+
+The application includes browser extensions for Chrome and Firefox that allow you to summarize videos directly on YouTube.
+
+### Installation
+
+#### Chrome / Brave / Edge
+1.  Open `chrome://extensions/`.
+2.  Enable **Developer mode**.
+3.  Click **Load unpacked** and select the `extensions/chrome` folder.
+
+#### Firefox
+1.  Open `about:debugging#/runtime/this-firefox`.
+2.  Click **Load Temporary Add-on...**.
+3.  Select the `manifest.json` file in the `extensions/firefox` folder.
+
+### Usage
+1.  Click the extension icon in your toolbar to configure your LLM provider and model.
+2.  Navigate to any YouTube video.
+3.  Click the **✨ Summarize** button that appears in the video action bar.
+
 ## Tech Stack
 - **Backend**: FastAPI, youtube-transcript-api, Requests
 - **Frontend**: React, Vite, Tailwind CSS, React Markdown, React Youtube

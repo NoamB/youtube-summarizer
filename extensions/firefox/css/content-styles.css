@@ -1,0 +1,126 @@
+/* YouTube UI Injection Styles */
+
+.yt-summarizer-btn {
+    background: linear-gradient(90deg, #3ea6ff, #65b8ff);
+    color: #0f0f0f;
+    border: none;
+    border-radius: 18px;
+    padding: 0 16px;
+    height: 36px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: filter 0.2s;
+    font-family: inherit;
+}
+
+.yt-summarizer-btn:hover {
+    filter: brightness(1.1);
+}
+
+.yt-summarizer-panel {
+    position: fixed;
+    top: 56px;
+    right: -400px;
+    width: 380px;
+    height: calc(100vh - 56px);
+    background-color: #0f0f0f;
+    border-left: 1px solid #333;
+    z-index: 2500;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    color: white;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    font-family: Roboto, Arial, sans-serif;
+}
+
+.yt-summarizer-panel.open {
+    right: 0;
+}
+
+.yt-summarizer-header {
+    padding: 16px;
+    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: intersection;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.yt-summarizer-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #3ea6ff;
+}
+
+.yt-summarizer-close {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 8px;
+}
+
+.yt-summarizer-close:hover {
+    color: white;
+}
+
+.yt-summarizer-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.yt-summarizer-status {
+    color: #aaaaaa;
+    font-style: italic;
+    font-size: 14px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #1a1a1a;
+    border-radius: 8px;
+}
+
+.yt-summarizer-summary {
+    font-size: 15px;
+}
+
+.yt-summarizer-summary p {
+    margin-bottom: 15px;
+}
+
+.yt-summarizer-summary blockquote {
+    border-left: 4px solid #3ea6ff;
+    padding-left: 15px;
+    margin: 15px 0;
+    color: #ddd;
+}
+
+.yt-summarizer-timestamp {
+    color: #3ea6ff;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    background: rgba(62, 166, 255, 0.1);
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.yt-summarizer-timestamp:hover {
+    text-decoration: underline;
+    background: rgba(62, 166, 255, 0.2);
+}
+
+.yt-summarizer-error {
+    color: #ff4e4e;
+    padding: 15px;
+    background: rgba(255, 78, 78, 0.1);
+    border: 1px solid rgba(255, 78, 78, 0.3);
+    border-radius: 8px;
+}
