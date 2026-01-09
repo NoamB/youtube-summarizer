@@ -1,0 +1,166 @@
+/* Button Injection */
+.yt-gemini-btn {
+    background: linear-gradient(135deg, #1e3a8a, #9333ea);
+    color: white;
+    border: none;
+    border-radius: 18px;
+    padding: 0 16px;
+    height: 36px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 8px;
+    display: inline-flex;
+    align-items: center;
+    font-family: Roboto, Arial, sans-serif;
+    transition: opacity 0.2s;
+}
+
+.yt-gemini-btn:hover {
+    opacity: 0.9;
+}
+
+/* Panel */
+.yt-gemini-panel {
+    position: fixed;
+    top: 56px;
+    /* Below YouTube navbar */
+    right: -400px;
+    width: 380px;
+    height: calc(100vh - 56px);
+    background: #0f0f0f;
+    border-left: 1px solid #333;
+    z-index: 9999;
+    transition: right 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-family: Roboto, Arial, sans-serif;
+}
+
+.yt-gemini-panel.open {
+    right: 0;
+}
+
+.yt-gemini-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #333;
+    background: #1a1a1a;
+}
+
+.yt-gemini-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.yt-gemini-close {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.yt-gemini-close:hover {
+    color: #fff;
+}
+
+.yt-gemini-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    line-height: 1.6;
+    font-size: 16px;
+    /* Increased from default */
+}
+
+/* Re-open Tab */
+.yt-gemini-reopen {
+    position: fixed;
+    top: 120px;
+    right: -50px;
+    width: 40px;
+    height: 120px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-right: none;
+    color: #fff;
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    transition: right 0.3s ease-in-out;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 14px;
+    letter-spacing: 1px;
+    user-select: none;
+}
+
+.yt-gemini-reopen.visible {
+    right: 0;
+}
+
+.yt-gemini-reopen:hover {
+    background: #333;
+}
+
+/* Markdown Styling */
+.yt-gemini-summary h1,
+.yt-gemini-summary h2,
+.yt-gemini-summary h3 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #f1f1f1;
+}
+
+.yt-gemini-summary h3 {
+    font-size: 1.2em;
+    /* Slightly larger */
+}
+
+/* ... (list styles) ... */
+
+.yt-gemini-timestamp {
+    color: #3b82f6;
+    /* Brighter blue */
+    cursor: pointer;
+    text-decoration: none;
+    background: rgba(59, 130, 246, 0.1);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.9em;
+    margin-right: 4px;
+    transition: all 0.2s;
+}
+
+.yt-gemini-timestamp:hover {
+    color: #60a5fa;
+    background: rgba(59, 130, 246, 0.2);
+    text-decoration: underline;
+}
+
+.yt-gemini-status {
+    color: #aaa;
+    font-style: italic;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.yt-gemini-error {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 20px;
+}
